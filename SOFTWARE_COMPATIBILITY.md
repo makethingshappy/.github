@@ -10,7 +10,7 @@
 | Octal2   | [Example](https://github.com/makethingshappy/IoTflow/blob/main/Node-RED%20Examples/octal_board_flow.json) | [Example](https://github.com/makethingshappy/IoTflow/blob/main/Node-RED%20Examples/octal_board_flow_with_blynk.json) | [Template](https://github.com/makethingshappy/IoThome/blob/main/Tasmota_Templates/IoTsmart_ESP32-S3.md#iotextra-octal2) | 🔲 | 🔲 | [Template](https://github.com/makethingshappy/IoThome/blob/main/Tasmota_Templates/IoTbase_Nano.md#iotextra-octal2) | ✅ |
 | Analog   | [Example](https://github.com/makethingshappy/IoTflow/blob/main/Node-RED%20Examples/analog_board_flow.json) | ❓ | 🔶 | 🔲 | 🔲 | [Template](https://github.com/makethingshappy/IoThome/blob/main/Tasmota_Templates/IoTbase_Nano.md#iotextra-analog) | ✅ |
 | Analog2  | 🗓 | 🗓 | 🗓 | 🗓 | 🗓 | 🗓 | 🗓 |
-| Analog3  | 🔲 | 🔲 | 🔶 | 🔲 | 🔲 | 🔶 | 🔲 |
+| Analog3  | 🔶 | 🔶 | 🔶 | 🔲 | 🔲 | 🔶 | 🔲 |
 | Combo    | ❓ | [Example](https://github.com/makethingshappy/IoTflow/blob/main/Node-RED%20Examples/combo_board_flow_with_blynk.json) | 🔶 | 🔲 | 🔲 | [Template](https://github.com/makethingshappy/IoThome/blob/main/Tasmota_Templates/IoTbase_Nano.md#iotextra-combo) | ✅ |
 | Combo2   | 🗓 | 🗓 | 🗓 | 🗓 | 🗓 | 🗓 | 🗓 |
 | Quadro   | 🗓 | 🗓 | 🗓 | 🗓 | 🗓 | 🗓 | 🗓 |
