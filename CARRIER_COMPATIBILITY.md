@@ -1,14 +1,17 @@
 # Carrier Board Software Compatibility
 
 | Carrier Board | IoTflow (Node-RED) | IoThome (Tasmota) |
-|---------------|:------------------:|:-----------------:|
-| IoTbase PICO | [Setup Guide](https://github.com/makethingshappy/IoTflow/blob/main/Documentation/SETUP.md) | 🔶 |
-| IoTbase NANO | [Setup Guide](https://github.com/makethingshappy/IoTflow/blob/main/Documentation/SETUP.md) | [Templates](https://github.com/makethingshappy/IoThome/blob/main/Tasmota_Templates/IoTbase_Nano.md) |
-| IoTbase Feather | 🔶 | 🔶 |
-| IoTsmart ESP32-S3 | [Setup Guide](https://github.com/makethingshappy/IoTflow/blob/main/Documentation/SETUP.md) | [Templates](https://github.com/makethingshappy/IoThome/blob/main/Tasmota_Templates/IoTsmart_ESP32-S3.md) |
-| IoTsmart XIAO | [Setup Guide](https://github.com/makethingshappy/IoTflow/blob/main/Documentation/SETUP.md) | 🔶 |
-| IoTsmart RP2040 | [Setup Guide](https://github.com/makethingshappy/IoTflow/blob/main/Documentation/SETUP.md) | — |
-| IoTsmart RP2350A | [Setup Guide](https://github.com/makethingshappy/IoTflow/blob/main/Documentation/SETUP.md) | — |
+|---|---|---|
+| IoTbase PICO + Waveshare ESP32-S3-Pico | [Setup Guide](#) | 🔶 Coming Soon |
+| IoTbase PICO + Waveshare ESP32-C6-Pico | [Setup Guide](#) | 🔶 Coming Soon |
+| IoTbase PICO + RP2040 | [Setup Guide](#) | — |
+| IoTbase PICO + RP2350 | [Setup Guide](#) | — |
+| IoTbase NANO | [Setup Guide](#) | [Templates](#) |
+| IoTbase Feather | 🔶 Coming Soon | 🔶 Coming Soon |
+| IoTsmart ESP32-S3 | [Setup Guide](#) | [Templates](#) |
+| IoTsmart XIAO | [Setup Guide](#) | 🔶 Coming Soon |
+| IoTsmart RP2040 | [Setup Guide](#) | — |
+| IoTsmart RP2350A | [Setup Guide](#) | — |
 
 **Legend:**
 - [Setup Guide] / [Templates] — available, click to open
