@@ -25,7 +25,7 @@ High-quality hardware modules and software for seamless IoT/IIoT integration.
 
 ## 📰 Publications
 
-Articles and press about our projects — [view full list](profile/PUBLICATIONS.md)
+Articles and press about our projects — [view full list](PUBLICATIONS.md)
 
 ---
 
