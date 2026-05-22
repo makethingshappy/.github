@@ -1,0 +1,136 @@
+name: Sync Compatibility Tables
+
+on:
+  push:
+    paths:
+      - 'CARRIER_COMPATIBILITY.md'
+      - 'IOTEXTRA_NODERED_COMPATIBILITY.md'
+      - 'IOTEXTRA_TASMOTA_COMPATIBILITY.md'
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout .github repo
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.MTH_SYNC_TOKEN }}
+
+      - name: Checkout IoTflow repo
+        uses: actions/checkout@v4
+        with:
+          repository: makethingshappy/IoTflow
+          token: ${{ secrets.MTH_SYNC_TOKEN }}
+          path: IoTflow
+
+      - name: Sync tables into IoTflow files
+        run: |
+          CARRIER=$(cat CARRIER_COMPATIBILITY.md)
+          NODERED=$(cat IOTEXTRA_NODERED_COMPATIBILITY.md)
+          TASMOTA=$(cat IOTEXTRA_TASMOTA_COMPATIBILITY.md)
+
+          for FILE in \
+            IoTflow/README.md \
+            IoTflow/Documentation/SETUP.md \
+            "IoTflow/IoTflow Forge/README.md" \
+            IoTflow/node-red-contrib-iotextra/README.md; do
+            if [ -f "$FILE" ]; then
+              python3 <<EOF
+import re
+
+with open("$FILE", "r") as f:
+    content = f.read()
+
+carrier = """$CARRIER"""
+nodered = """$NODERED"""
+tasmota = """$TASMOTA"""
+
+content = re.sub(
+    r'<!-- CARRIER_COMPATIBILITY_START -->.*?<!-- CARRIER_COMPATIBILITY_END -->',
+    '<!-- CARRIER_COMPATIBILITY_START -->\n' + carrier + '\n<!-- CARRIER_COMPATIBILITY_END -->',
+    content, flags=re.DOTALL
+)
+
+content = re.sub(
+    r'<!-- IOTEXTRA_NODERED_COMPATIBILITY_START -->.*?<!-- IOTEXTRA_NODERED_COMPATIBILITY_END -->',
+    '<!-- IOTEXTRA_NODERED_COMPATIBILITY_START -->\n' + nodered + '\n<!-- IOTEXTRA_NODERED_COMPATIBILITY_END -->',
+    content, flags=re.DOTALL
+)
+
+content = re.sub(
+    r'<!-- IOTEXTRA_TASMOTA_COMPATIBILITY_START -->.*?<!-- IOTEXTRA_TASMOTA_COMPATIBILITY_END -->',
+    '<!-- IOTEXTRA_TASMOTA_COMPATIBILITY_START -->\n' + tasmota + '\n<!-- IOTEXTRA_TASMOTA_COMPATIBILITY_END -->',
+    content, flags=re.DOTALL
+)
+
+with open("$FILE", "w") as f:
+    f.write(content)
+
+print(f"Updated $FILE")
+EOF
+            fi
+          done
+
+      - name: Sync tables into .github profile README
+        run: |
+          CARRIER=$(cat CARRIER_COMPATIBILITY.md)
+          NODERED=$(cat IOTEXTRA_NODERED_COMPATIBILITY.md)
+          TASMOTA=$(cat IOTEXTRA_TASMOTA_COMPATIBILITY.md)
+
+          FILE="profile/README.md"
+          if [ -f "$FILE" ]; then
+            python3 <<EOF
+import re
+
+with open("$FILE", "r") as f:
+    content = f.read()
+
+carrier = """$CARRIER"""
+nodered = """$NODERED"""
+tasmota = """$TASMOTA"""
+
+content = re.sub(
+    r'<!-- CARRIER_COMPATIBILITY_START -->.*?<!-- CARRIER_COMPATIBILITY_END -->',
+    '<!-- CARRIER_COMPATIBILITY_START -->\n' + carrier + '\n<!-- CARRIER_COMPATIBILITY_END -->',
+    content, flags=re.DOTALL
+)
+
+content = re.sub(
+    r'<!-- IOTEXTRA_NODERED_COMPATIBILITY_START -->.*?<!-- IOTEXTRA_NODERED_COMPATIBILITY_END -->',
+    '<!-- IOTEXTRA_NODERED_COMPATIBILITY_START -->\n' + nodered + '\n<!-- IOTEXTRA_NODERED_COMPATIBILITY_END -->',
+    content, flags=re.DOTALL
+)
+
+content = re.sub(
+    r'<!-- IOTEXTRA_TASMOTA_COMPATIBILITY_START -->.*?<!-- IOTEXTRA_TASMOTA_COMPATIBILITY_END -->',
+    '<!-- IOTEXTRA_TASMOTA_COMPATIBILITY_START -->\n' + tasmota + '\n<!-- IOTEXTRA_TASMOTA_COMPATIBILITY_END -->',
+    content, flags=re.DOTALL
+)
+
+with open("$FILE", "w") as f:
+    f.write(content)
+
+print(f"Updated $FILE")
+EOF
+          fi
+
+      - name: Commit changes to IoTflow
+        run: |
+          cd IoTflow
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add README.md Documentation/SETUP.md "IoTflow Forge/README.md" node-red-contrib-iotextra/README.md
+          git diff --staged --quiet || git commit -m "Auto-sync compatibility tables"
+          git push
+
+      - name: Commit changes to .github
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add profile/README.md
+          git diff --staged --quiet || git commit -m "Auto-sync compatibility tables"
+          git push
