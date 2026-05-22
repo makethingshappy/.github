@@ -17,7 +17,7 @@
 | IoTsmart XIAO + XIAO ESP32-C5 | 🔲 Planned | 🔲 Planned |
 | IoTsmart XIAO + XIAO ESP32-C6 | 🔲 Planned | 🔲 Planned |
 
-**Legend: **
+** Legend:**
 - [![Open](https://img.shields.io/badge/Open-green)]() — available, click to open
 - — — not applicable
 - 🔶 — Coming Soon
