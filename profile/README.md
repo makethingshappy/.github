@@ -1,5 +1,4 @@
 # Make Things Happy!
-
 The official GitHub home for the [makethingshappy.io](https://makethingshappy.io) platform.  
 High-quality hardware modules and software for seamless IoT/IIoT integration.
 
@@ -20,6 +19,25 @@ High-quality hardware modules and software for seamless IoT/IIoT integration.
 | **I/O Modules** | [IoTextra-Combo](https://github.com/makethingshappy/IoTextra-Combo) | Hybrid analog & digital I/O modules |
 | **Smart Home** | [IoThome](https://github.com/makethingshappy/IoThome) | Standalone Tasmota ecosystem for smart home |
 | **Adapters** | [Shields](https://github.com/makethingshappy/Shields) | Adapters connecting Arduino, Feather, Pico, Teensy to mikroBUS |
+
+---
+
+## 📊 Software Compatibility
+
+### Carrier Boards
+
+<!-- CARRIER_COMPATIBILITY_START -->
+<!-- CARRIER_COMPATIBILITY_END -->
+
+### IoTextra Modules — Node-RED
+
+<!-- IOTEXTRA_NODERED_COMPATIBILITY_START -->
+<!-- IOTEXTRA_NODERED_COMPATIBILITY_END -->
+
+### IoTextra Modules — Tasmota
+
+<!-- IOTEXTRA_TASMOTA_COMPATIBILITY_START -->
+<!-- IOTEXTRA_TASMOTA_COMPATIBILITY_END -->
 
 ---
 
