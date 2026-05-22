@@ -134,3 +134,4 @@ EOF
           git add profile/README.md
           git diff --staged --quiet || git commit -m "Auto-sync compatibility tables"
           git push
+ 
