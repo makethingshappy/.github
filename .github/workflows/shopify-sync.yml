@@ -47,6 +47,7 @@ jobs:
               )
               req.add_header('Content-Type', 'application/json')
               req.add_header('X-Shopify-Access-Token', token)
+              req.add_header('Cache-Control', 'no-cache')
               with urllib.request.urlopen(req) as resp:
                   result = json.loads(resp.read())
                   print(f"Updated: {result['page']['title']}")
