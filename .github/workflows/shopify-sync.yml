@@ -13,7 +13,7 @@ jobs:
       - name: Checkout .github repo
         uses: actions/checkout@v4
 
-      - name: Convert PUBLICATIONS.md to HTML and update Shopify
+      - name: Update Shopify page via REST API
         env:
           SHOPIFY_TOKEN: ${{ secrets.SHOPIFY_ACCESS_TOKEN }}
         run: |
@@ -24,11 +24,9 @@ jobs:
           import json
           import os
 
-          # Read PUBLICATIONS.md
           with open('profile/PUBLICATIONS.md', 'r') as f:
               content = f.read()
 
-          # Convert Markdown to HTML
           html_parts = []
           ul_items = []
 
@@ -42,55 +40,33 @@ jobs:
                   flush_ul()
               elif line.startswith('### '):
                   flush_ul()
-                  heading = line[4:].strip()
-                  html_parts.append(f'<h3>{heading}</h3>')
+                  html_parts.append(f'<h3>{line[4:].strip()}</h3>')
               elif line.startswith('- '):
                   match = re.match(r'- \[(.+?)\]\((.+?)\)', line)
                   if match:
-                      title, url = match.group(1), match.group(2)
-                      ul_items.append(f'  <li><a href="{url}">{title}</a></li>')
+                      ul_items.append(f'  <li><a href="{match.group(2)}">{match.group(1)}</a></li>')
               elif line.strip() == '':
                   flush_ul()
 
           flush_ul()
           html = '\n'.join(html_parts)
-          print("Generated HTML preview (first 300 chars):")
-          print(html[:300])
+          print("HTML to write:")
+          print(html[:200])
 
-          # Update Shopify page via GraphQL
           shop = '55b706-7c.myshopify.com'
           token = os.environ['SHOPIFY_TOKEN']
-          page_gid = 'gid://shopify/OnlineStorePage/160783663390'
-
-          query = '''
-          mutation pageUpdate($id: ID!, $page: PageUpdateInput!) {
-            pageUpdate(id: $id, page: $page) {
-              page {
-                id
-                title
-              }
-              userErrors {
-                field
-                message
-              }
-            }
-          }
-          '''
+          page_id = '160783663390'
 
           payload = json.dumps({
-              'query': query,
-              'variables': {
-                  'id': page_gid,
-                  'page': {
-                      'bodyHtml': html
-                  }
+              'page': {
+                  'body_html': html
               }
           }).encode('utf-8')
 
           req = urllib.request.Request(
-              f'https://{shop}/admin/api/2026-04/graphql.json',
+              f'https://{shop}/admin/api/2024-01/pages/{page_id}.json',
               data=payload,
-              method='POST'
+              method='PUT'
           )
           req.add_header('Content-Type', 'application/json')
           req.add_header('X-Shopify-Access-Token', token)
@@ -98,13 +74,9 @@ jobs:
           try:
               with urllib.request.urlopen(req) as resp:
                   result = json.loads(resp.read())
-                  print("GraphQL response:", json.dumps(result, indent=2))
-                  errors = result.get('data', {}).get('pageUpdate', {}).get('userErrors', [])
-                  if errors:
-                      print("User errors:", errors)
-                      raise Exception(f"GraphQL user errors: {errors}")
-                  page = result.get('data', {}).get('pageUpdate', {}).get('page', {})
-                  print(f"Successfully updated: {page.get('title')}")
+                  page = result.get('page', {})
+                  print(f"Updated: {page.get('title')}")
+                  print(f"Body preview: {page.get('body_html','')[:200]}")
           except urllib.error.HTTPError as e:
               print(f"HTTP Error {e.code}:", e.read().decode())
               raise
