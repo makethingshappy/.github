@@ -1,9 +1,12 @@
-name: Sync Publications to Shopify
+name: Sync to Shopify
 
 on:
   push:
     paths:
       - 'profile/PUBLICATIONS.md'
+      - 'CARRIER_COMPATIBILITY.md'
+      - 'IOTEXTRA_NODERED_COMPATIBILITY.md'
+      - 'IOTEXTRA_TASMOTA_COMPATIBILITY.md'
   workflow_dispatch:
 
 jobs:
@@ -13,7 +16,7 @@ jobs:
       - name: Checkout .github repo
         uses: actions/checkout@v4
 
-      - name: Update Shopify page via REST API
+      - name: Sync to Shopify
         env:
           SHOPIFY_TOKEN: ${{ secrets.SHOPIFY_ACCESS_TOKEN }}
         run: |
@@ -24,60 +27,116 @@ jobs:
           import json
           import os
 
-          with open('profile/PUBLICATIONS.md', 'r') as f:
-              content = f.read()
-
-          html_parts = []
-          ul_items = []
-
-          def flush_ul():
-              if ul_items:
-                  html_parts.append('<ul>\n' + '\n'.join(ul_items) + '\n</ul>')
-                  ul_items.clear()
-
-          for line in content.split('\n'):
-              if line.startswith('# '):
-                  flush_ul()
-              elif line.startswith('### '):
-                  flush_ul()
-                  html_parts.append(f'<h3>{line[4:].strip()}</h3>')
-              elif line.startswith('- '):
-                  match = re.match(r'- \[(.+?)\]\((.+?)\)', line)
-                  if match:
-                      ul_items.append(f'  <li><a href="{match.group(2)}">{match.group(1)}</a></li>')
-              elif line.strip() == '':
-                  flush_ul()
-
-          flush_ul()
-          html = '\n'.join(html_parts)
-          print("HTML to write:")
-          print(html[:200])
-
           shop = '55b706-7c.myshopify.com'
           token = os.environ['SHOPIFY_TOKEN']
-          page_id = '160783663390'
 
-          payload = json.dumps({
-              'page': {
-                  'body_html': html
-              }
-          }).encode('utf-8')
+          def get_page(page_id):
+              req = urllib.request.Request(
+                  f'https://{shop}/admin/api/2024-01/pages/{page_id}.json',
+                  method='GET'
+              )
+              req.add_header('X-Shopify-Access-Token', token)
+              with urllib.request.urlopen(req) as resp:
+                  return json.loads(resp.read())['page']['body_html']
 
-          req = urllib.request.Request(
-              f'https://{shop}/admin/api/2024-01/pages/{page_id}.json',
-              data=payload,
-              method='PUT'
-          )
-          req.add_header('Content-Type', 'application/json')
-          req.add_header('X-Shopify-Access-Token', token)
-
-          try:
+          def update_page(page_id, html):
+              payload = json.dumps({'page': {'body_html': html}}).encode('utf-8')
+              req = urllib.request.Request(
+                  f'https://{shop}/admin/api/2024-01/pages/{page_id}.json',
+                  data=payload, method='PUT'
+              )
+              req.add_header('Content-Type', 'application/json')
+              req.add_header('X-Shopify-Access-Token', token)
               with urllib.request.urlopen(req) as resp:
                   result = json.loads(resp.read())
-                  page = result.get('page', {})
-                  print(f"Updated: {page.get('title')}")
-                  print(f"Body preview: {page.get('body_html','')[:200]}")
-          except urllib.error.HTTPError as e:
-              print(f"HTTP Error {e.code}:", e.read().decode())
-              raise
+                  print(f"Updated: {result['page']['title']}")
+
+          def inject_marker(html, marker, content):
+              start = f'<!-- {marker}_START -->'
+              end = f'<!-- {marker}_END -->'
+              pattern = f'{re.escape(start)}.*?{re.escape(end)}'
+              replacement = f'{start}\n{content}\n{end}'
+              new_html, count = re.subn(pattern, replacement, html, flags=re.DOTALL)
+              if count == 0:
+                  print(f"WARNING: marker {marker} not found in page!")
+              return new_html
+
+          def md_table_to_html(md):
+              """Convert markdown table to HTML table"""
+              lines = [l for l in md.strip().split('\n') if l.strip()]
+              html = '<table border="1" style="border-collapse:collapse;width:100%">\n'
+              for i, line in enumerate(lines):
+                  if re.match(r'^\|[-| :]+\|$', line):
+                      continue
+                  cells = [c.strip() for c in line.strip('|').split('|')]
+                  tag = 'th' if i == 0 else 'td'
+                  html += '<tr>' + ''.join(f'<{tag}>{c}</{tag}>' for c in cells) + '</tr>\n'
+              html += '</table>'
+              return html
+
+          def publications_to_html(md):
+              html_parts = []
+              ul_items = []
+              def flush_ul():
+                  if ul_items:
+                      html_parts.append('<ul>\n' + '\n'.join(ul_items) + '\n</ul>')
+                      ul_items.clear()
+              for line in md.split('\n'):
+                  if line.startswith('# '):
+                      flush_ul()
+                  elif line.startswith('### '):
+                      flush_ul()
+                      html_parts.append(f'<h3>{line[4:].strip()}</h3>')
+                  elif line.startswith('- '):
+                      match = re.match(r'- \[(.+?)\]\((.+?)\)', line)
+                      if match:
+                          ul_items.append(f'  <li><a href="{match.group(2)}">{match.group(1)}</a></li>')
+                  elif line.strip() == '':
+                      flush_ul()
+              flush_ul()
+              return '\n'.join(html_parts)
+
+          # Read source files
+          with open('profile/PUBLICATIONS.md') as f:
+              pub_html = publications_to_html(f.read())
+          with open('CARRIER_COMPATIBILITY.md') as f:
+              carrier_html = md_table_to_html(f.read())
+          with open('IOTEXTRA_NODERED_COMPATIBILITY.md') as f:
+              nodered_html = md_table_to_html(f.read())
+          with open('IOTEXTRA_TASMOTA_COMPATIBILITY.md') as f:
+              tasmota_html = md_table_to_html(f.read())
+
+          # Pages config: {page_id: [(marker, content), ...]}
+          pages = {
+              '160783663390': [  # PUBLICATIONS
+                  # No markers - full replace handled separately
+              ],
+              '155994652958': [  # IoTflow
+                  ('CARRIER_COMPATIBILITY', carrier_html),
+                  ('IOTEXTRA_NODERED_COMPATIBILITY', nodered_html),
+              ],
+              '160892322078': [  # IoThome
+                  ('CARRIER_COMPATIBILITY', carrier_html),
+                  ('IOTEXTRA_TASMOTA_COMPATIBILITY', tasmota_html),
+              ],
+              '155104608542': [  # Ecosystem
+                  ('CARRIER_COMPATIBILITY', carrier_html),
+                  ('IOTEXTRA_NODERED_COMPATIBILITY', nodered_html),
+                  ('IOTEXTRA_TASMOTA_COMPATIBILITY', tasmota_html),
+              ],
+          }
+
+          # Update PUBLICATIONS (full replace)
+          update_page('160783663390', pub_html)
+
+          # Update pages with markers
+          for page_id, markers in pages.items():
+              if not markers:
+                  continue
+              html = get_page(page_id)
+              for marker, content in markers:
+                  html = inject_marker(html, marker, content)
+              update_page(page_id, html)
+
+          print("All done!")
           PYEOF
