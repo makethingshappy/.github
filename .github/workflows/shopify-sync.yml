@@ -1,0 +1,88 @@
+name: Sync Publications to Shopify
+
+on:
+  push:
+    paths:
+      - 'profile/PUBLICATIONS.md'
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout .github repo
+        uses: actions/checkout@v4
+
+      - name: Convert PUBLICATIONS.md to HTML and update Shopify
+        env:
+          SHOPIFY_TOKEN: ${{ secrets.SHOPIFY_ACCESS_TOKEN }}
+        run: |
+          python3 << 'PYEOF'
+          import re
+          import urllib.request
+          import urllib.error
+          import json
+          import os
+
+          # Read PUBLICATIONS.md
+          with open('profile/PUBLICATIONS.md', 'r') as f:
+              content = f.read()
+
+          # Convert Markdown to HTML
+          html_parts = []
+          ul_items = []
+
+          def flush_ul():
+              if ul_items:
+                  html_parts.append('<ul>\n' + '\n'.join(ul_items) + '\n</ul>')
+                  ul_items.clear()
+
+          for line in content.split('\n'):
+              if line.startswith('# '):
+                  flush_ul()
+              elif line.startswith('### '):
+                  flush_ul()
+                  heading = line[4:].strip()
+                  html_parts.append(f'<h3>{heading}</h3>')
+              elif line.startswith('- '):
+                  match = re.match(r'- \[(.+?)\]\((.+?)\)', line)
+                  if match:
+                      title, url = match.group(1), match.group(2)
+                      ul_items.append(f'  <li><a href="{url}">{title}</a></li>')
+              elif line.strip() == '':
+                  flush_ul()
+
+          flush_ul()
+          html = '\n'.join(html_parts)
+
+          print("Generated HTML preview:")
+          print(html[:500])
+
+          # Update Shopify page
+          page_id = '160783663390'
+          shop = 'makethingshappy.myshopify.com'
+          token = os.environ['SHOPIFY_TOKEN']
+
+          payload = json.dumps({
+              'page': {
+                  'id': page_id,
+                  'body_html': html
+              }
+          }).encode('utf-8')
+
+          req = urllib.request.Request(
+              f'https://{shop}/admin/api/2026-04/pages/{page_id}.json',
+              data=payload,
+              method='PUT'
+          )
+          req.add_header('Content-Type', 'application/json')
+          req.add_header('X-Shopify-Access-Token', token)
+
+          try:
+              with urllib.request.urlopen(req) as resp:
+                  result = json.loads(resp.read())
+                  print(f"Successfully updated Shopify page: {result['page']['title']}")
+          except urllib.error.HTTPError as e:
+              print(f"HTTP Error {e.code}: {e.read().decode()}")
+              raise
+          PYEOF
