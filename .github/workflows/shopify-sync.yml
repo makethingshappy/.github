@@ -162,5 +162,9 @@ jobs:
                   html = inject_marker(html, marker, content)
               update_page(page_id, html)
 
+          carrier_html += '<p></p>'
+          nodered_html += '<p></p>'
+          tasmota_html += '<p></p>'
+
           print("All done!")
           PYEOF
