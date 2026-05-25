@@ -60,7 +60,7 @@ jobs:
 
           # Update Shopify page
           page_id = '160783663390'
-          shop = 'makethingshappy.myshopify.com'
+          shop = '55b706-7c.myshopify.com'
           token = os.environ['SHOPIFY_TOKEN']
 
           payload = json.dumps({
