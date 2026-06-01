@@ -63,18 +63,8 @@ jobs:
               return new_html
 
           def make_button(label, url):
-              if label in ('Open', 'Template'):
-                  color = '#2ea44f'
-              elif label == 'Example':
-                  color = '#6a8f3a'
-              else:
-                  color = '#2ea44f'
-              style = (
-                  'display:inline-block;padding:3px 10px;border-radius:4px;'
-                  f'background:{color};color:#fff!important;font-size:12px;'
-                  'font-weight:700;text-decoration:none!important;white-space:nowrap;'
-              )
-              return f'<a href="{url}" style="{style}">{label}</a>'
+              cls = 'mth-btn mth-btn-example' if label == 'Example' else 'mth-btn mth-btn-open'
+              return f'<a href="{url}" class="{cls}">{label}</a>'
 
           def convert_cell(cell):
               def badge_to_button(m):
@@ -91,6 +81,17 @@ jobs:
               html_parts = []
               in_table = False
               first_row = True
+              button_style = (
+                  '<style>'
+                  '.mth-btn{display:inline-block;padding:3px 10px;border-radius:4px;'
+                  'font-size:12px;font-weight:700;text-decoration:none!important;'
+                  'white-space:nowrap;color:#fff!important;}'
+                  '.mth-btn:hover{opacity:0.85;color:#fff!important;}'
+                  '.mth-btn-open{background:#2ea44f;}'
+                  '.mth-btn-example{background:#6a8f3a;}'
+                  '</style>'
+              )
+              html_parts.append(button_style)
               for line in lines:
                   s = line.strip()
                   if s.startswith('#'):
