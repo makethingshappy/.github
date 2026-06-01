@@ -71,8 +71,8 @@ jobs:
                   color = '#2ea44f'
               style = (
                   'display:inline-block;padding:3px 10px;border-radius:4px;'
-                  f'background:{color};color:#fff;font-size:12px;'
-                  'font-weight:600;text-decoration:none;white-space:nowrap;'
+                  f'background:{color};color:#fff!important;font-size:12px;'
+                  'font-weight:700;text-decoration:none!important;white-space:nowrap;'
               )
               return f'<a href="{url}" style="{style}">{label}</a>'
 
