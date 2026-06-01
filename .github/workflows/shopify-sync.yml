@@ -66,19 +66,15 @@ jobs:
               color = '#6a8f3a' if label == 'Example' else '#2ea44f'
               style = (
                   f'display:inline-block;padding:3px 10px;border-radius:4px;'
-                  f'background:{color};color:#ffffff!important;font-size:12px;'
+                  f'background:{color};color:#ffffff;font-size:12px;'
                   f'font-weight:700;text-decoration:none;white-space:nowrap;'
-                  f'border:none;'
+                  f'border:none;cursor:pointer;'
               )
-              hover_out = f"this.style.opacity='1';this.style.color='#ffffff';"
-              hover_in = f"this.style.opacity='0.8';this.style.color='#ffffff';"
               return (
-                  f'<a href="{url}" '
-                  f'style="{style}" '
-                  f'onmouseover="{hover_in}" '
-                  f'onmouseout="{hover_out}">'
-                  f'<span style="color:#ffffff!important;font-weight:700;">{label}</span>'
-                  f'</a>'
+                  f'<button onclick="window.open(\'{url}\',\'_blank\')" '
+                  f'style="{style}">'
+                  f'{label}'
+                  f'</button>'
               )
 
           def convert_cell(cell):
