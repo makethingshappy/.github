@@ -63,7 +63,7 @@ jobs:
               return new_html
 
           def make_button(label, url):
-              color = '#6a8f3a' if label == 'Example' else '#2ea44f'
+              color = '#8cc24e' if label == 'Example' else '#52cc75'
               style = (
                   f'display:inline-block;padding:3px 10px;border-radius:4px;'
                   f'background:{color};font-size:12px;'
