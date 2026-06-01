@@ -1,4 +1,4 @@
-name: Sync to Shopify
+name: MTH Sync
 
 on:
   push:
@@ -62,8 +62,26 @@ jobs:
                   print(f"WARNING: marker {marker} not found!")
               return new_html
 
+          def make_button(label, url):
+              if label in ('Open', 'Template'):
+                  color = '#2ea44f'
+              elif label == 'Example':
+                  color = '#6a8f3a'
+              else:
+                  color = '#2ea44f'
+              style = (
+                  'display:inline-block;padding:3px 10px;border-radius:4px;'
+                  f'background:{color};color:#fff;font-size:12px;'
+                  'font-weight:600;text-decoration:none;white-space:nowrap;'
+              )
+              return f'<a href="{url}" style="{style}">{label}</a>'
+
           def convert_cell(cell):
-              cell = re.sub(r'\[!\[([^\]]+)\]\([^)]*\)\]\(([^)]+)\)', r'<a href="\2">[\1]</a>', cell)
+              def badge_to_button(m):
+                  label = m.group(1)
+                  url = m.group(2)
+                  return make_button(label, url)
+              cell = re.sub(r'\[!\[([^\]]+)\]\([^)]*\)\]\(([^)]+)\)', badge_to_button, cell)
               cell = re.sub(r'\[([^\]]+)\]\(([^)]+)\)', r'<a href="\2">\1</a>', cell)
               cell = re.sub(r'\*\*([^*]+)\*\*', r'<strong>\1</strong>', cell)
               return cell
@@ -99,7 +117,14 @@ jobs:
                   if not s:
                       continue
                   s = re.sub(r'\*\*([^*]+)\*\*', r'<strong>\1</strong>', s)
-                  s = re.sub(r'\[!\[([^\]]+)\]\([^)]*\)\]\(([^)]*)\)\s*', r'<a href="\2">[\1]</a> ', s)
+                  def badge_to_button_legend(m):
+                      label = m.group(1)
+                      url = m.group(2)
+                      if url:
+                          return make_button(label, url) + ' '
+                      else:
+                          return make_button(label, '#') + ' '
+                  s = re.sub(r'\[!\[([^\]]+)\]\([^)]*\)\]\(([^)]*)\)\s*', badge_to_button_legend, s)
                   s = re.sub(r'\[([^\]]+)\]\(([^)]+)\)', r'<a href="\2">\1</a>', s)
                   if s.startswith('- '):
                       s = '<li>' + s[2:] + '</li>'
@@ -162,10 +187,6 @@ jobs:
               for marker, content in markers:
                   html = inject_marker(html, marker, content)
               update_page(page_id, html)
-
-          carrier_html += '<p></p>'
-          nodered_html += '<p></p>'
-          tasmota_html += '<p></p>'
 
           print("All done!")
           PYEOF
