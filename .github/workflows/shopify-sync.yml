@@ -1,6 +1,5 @@
-
 name: Shopify Sync
- 
+
 on:
   push:
     paths:
@@ -9,14 +8,14 @@ on:
       - 'IOTEXTRA_NODERED_COMPATIBILITY.md'
       - 'IOTEXTRA_TASMOTA_COMPATIBILITY.md'
   workflow_dispatch:
- 
+
 jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout .github repo
         uses: actions/checkout@v4
- 
+
       - name: Sync to Shopify
         env:
           SHOPIFY_TOKEN: ${{ secrets.SHOPIFY_ACCESS_TOKEN }}
@@ -27,10 +26,10 @@ jobs:
           import urllib.error
           import json
           import os
- 
+
           shop = '55b706-7c.myshopify.com'
           token = os.environ['SHOPIFY_TOKEN']
- 
+
           def get_page(page_id):
               req = urllib.request.Request(
                   f'https://{shop}/admin/api/2024-01/pages/{page_id}.json',
@@ -39,7 +38,7 @@ jobs:
               req.add_header('X-Shopify-Access-Token', token)
               with urllib.request.urlopen(req) as resp:
                   return json.loads(resp.read())['page']['body_html']
- 
+
           def update_page(page_id, html):
               payload = json.dumps({'page': {'body_html': html}}).encode('utf-8')
               req = urllib.request.Request(
@@ -52,7 +51,7 @@ jobs:
               with urllib.request.urlopen(req) as resp:
                   result = json.loads(resp.read())
                   print(f"Updated: {result['page']['title']}")
- 
+
           def inject_marker(html, marker, content):
               start = f'<!-- {marker}_START -->'
               end = f'<!-- {marker}_END -->'
@@ -62,22 +61,16 @@ jobs:
               if count == 0:
                   print(f"WARNING: marker {marker} not found!")
               return new_html
- 
+
           def make_button(label, url):
               color = '#6a8f3a' if label == 'Example' else '#2ea44f'
               style = (
                   f'display:inline-block;padding:3px 10px;border-radius:4px;'
-                  f'background:{color};color:#ffffff;font-size:12px;'
+                  f'background:{color};font-size:12px;'
                   f'font-weight:700;text-decoration:none;white-space:nowrap;'
-                  f'border:none;cursor:pointer;'
               )
-              return (
-                  f'<button onclick="window.open(\'{url}\',\'_blank\')" '
-                  f'style="{style}">'
-                  f'{label}'
-                  f'</button>'
-              )
- 
+              return f'<a href="{url}" style="{style}">{label}</a>'
+
           def convert_cell(cell):
               def badge_to_button(m):
                   label = m.group(1)
@@ -87,7 +80,7 @@ jobs:
               cell = re.sub(r'\[([^\]]+)\]\(([^)]+)\)', r'<a href="\2">\1</a>', cell)
               cell = re.sub(r'\*\*([^*]+)\*\*', r'<strong>\1</strong>', cell)
               return cell
- 
+
           def md_to_html(md):
               lines = md.strip().split('\n')
               html_parts = []
@@ -134,7 +127,7 @@ jobs:
               if in_table:
                   html_parts.append('</table><p style="margin-top:12px"></p>')
               return '\n'.join(html_parts)
- 
+
           def publications_to_html(md):
               html_parts = []
               ul_items = []
@@ -156,7 +149,7 @@ jobs:
                       flush_ul()
               flush_ul()
               return '\n'.join(html_parts)
- 
+
           with open('profile/PUBLICATIONS.md') as f:
               pub_html = publications_to_html(f.read())
           with open('CARRIER_COMPATIBILITY.md') as f:
@@ -165,9 +158,9 @@ jobs:
               nodered_html = md_to_html(f.read())
           with open('IOTEXTRA_TASMOTA_COMPATIBILITY.md') as f:
               tasmota_html = md_to_html(f.read())
- 
+
           update_page('160783663390', pub_html)
- 
+
           pages = {
               '155994652958': [
                   ('CARRIER_COMPATIBILITY', carrier_html),
@@ -183,12 +176,12 @@ jobs:
                   ('IOTEXTRA_TASMOTA_COMPATIBILITY', tasmota_html),
               ],
           }
- 
+
           for page_id, markers in pages.items():
               html = get_page(page_id)
               for marker, content in markers:
                   html = inject_marker(html, marker, content)
               update_page(page_id, html)
- 
+
           print("All done!")
           PYEOF
