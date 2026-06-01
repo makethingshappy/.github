@@ -83,12 +83,14 @@ jobs:
               first_row = True
               button_style = (
                   '<style>'
-                  '.mth-btn{display:inline-block;padding:3px 10px;border-radius:4px;'
-                  'font-size:12px;font-weight:700;text-decoration:none!important;'
-                  'white-space:nowrap;color:#fff!important;}'
-                  '.mth-btn:hover{opacity:0.85;color:#fff!important;}'
-                  '.mth-btn-open{background:#2ea44f;}'
-                  '.mth-btn-example{background:#6a8f3a;}'
+                  '.mth-btn{display:inline-block!important;padding:3px 10px!important;border-radius:4px!important;'
+                  'font-size:12px!important;font-weight:700!important;text-decoration:none!important;'
+                  'white-space:nowrap!important;color:#fff!important;}'
+                  '.mth-btn:hover{opacity:0.85!important;color:#fff!important;text-decoration:none!important;}'
+                  '.mth-btn:visited{color:#fff!important;}'
+                  '.mth-btn:active{color:#fff!important;}'
+                  '.mth-btn-open{background:#2ea44f!important;}'
+                  '.mth-btn-example{background:#6a8f3a!important;}'
                   '</style>'
               )
               html_parts.append(button_style)
