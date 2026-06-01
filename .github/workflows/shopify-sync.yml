@@ -63,8 +63,23 @@ jobs:
               return new_html
 
           def make_button(label, url):
-              cls = 'mth-btn mth-btn-example' if label == 'Example' else 'mth-btn mth-btn-open'
-              return f'<a href="{url}" class="{cls}">{label}</a>'
+              color = '#6a8f3a' if label == 'Example' else '#2ea44f'
+              style = (
+                  f'display:inline-block;padding:3px 10px;border-radius:4px;'
+                  f'background:{color};color:#ffffff!important;font-size:12px;'
+                  f'font-weight:700;text-decoration:none;white-space:nowrap;'
+                  f'border:none;'
+              )
+              hover_out = f"this.style.opacity='1';this.style.color='#ffffff';"
+              hover_in = f"this.style.opacity='0.8';this.style.color='#ffffff';"
+              return (
+                  f'<a href="{url}" '
+                  f'style="{style}" '
+                  f'onmouseover="{hover_in}" '
+                  f'onmouseout="{hover_out}">'
+                  f'<span style="color:#ffffff!important;font-weight:700;">{label}</span>'
+                  f'</a>'
+              )
 
           def convert_cell(cell):
               def badge_to_button(m):
@@ -81,19 +96,6 @@ jobs:
               html_parts = []
               in_table = False
               first_row = True
-              button_style = (
-                  '<style>'
-                  '.mth-btn{display:inline-block!important;padding:3px 10px!important;border-radius:4px!important;'
-                  'font-size:12px!important;font-weight:700!important;text-decoration:none!important;'
-                  'white-space:nowrap!important;color:#fff!important;}'
-                  '.mth-btn:hover{opacity:0.85!important;color:#fff!important;text-decoration:none!important;}'
-                  '.mth-btn:visited{color:#fff!important;}'
-                  '.mth-btn:active{color:#fff!important;}'
-                  '.mth-btn-open{background:#2ea44f!important;}'
-                  '.mth-btn-example{background:#6a8f3a!important;}'
-                  '</style>'
-              )
-              html_parts.append(button_style)
               for line in lines:
                   s = line.strip()
                   if s.startswith('#'):
