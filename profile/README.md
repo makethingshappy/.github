@@ -22,7 +22,7 @@ High-quality hardware modules and software for seamless IoT/IIoT integration.
 
 ---
 
-## 📊 Software Compatibility
+## <a name="software-compatibility"></a>📊 Software Compatibility
 
 ### Carrier Boards
 
