@@ -4,6 +4,17 @@ High-quality hardware modules and software for seamless IoT/IIoT integration.
 
 ---
 
+## 📋 Contents
+
+- [🔧 Our Ecosystem](#-our-ecosystem)
+- [📊 Software Compatibility](#software-compatibility)
+  - [Carrier Boards](#carrier-boards)
+  - [IoTextra — Node-RED Compatibility](#iotextra--node-red-compatibility)
+  - [IoTextra — Tasmota Compatibility](#iotextra--tasmota-compatibility)
+- [📰 Publications](#-publications)
+
+---
+
 ## 🔧 Our Ecosystem
 
 **Make Things Happy** builds a unified, modular platform for IoT and industrial automation:
@@ -54,7 +65,7 @@ High-quality hardware modules and software for seamless IoT/IIoT integration.
 
 <!-- CARRIER_COMPATIBILITY_END -->
 
-### IoTextra Modules — Node-RED
+### <a name="iotextra--node-red-compatibility"></a>IoTextra — Node-RED Compatibility
 
 <!-- IOTEXTRA_NODERED_COMPATIBILITY_START -->
 # IoTextra Node-RED Compatibility
@@ -82,7 +93,7 @@ High-quality hardware modules and software for seamless IoT/IIoT integration.
 
 <!-- IOTEXTRA_NODERED_COMPATIBILITY_END -->
 
-### IoTextra Modules — Tasmota
+### <a name="iotextra--tasmota-compatibility"></a>IoTextra — Tasmota Compatibility
 
 <!-- IOTEXTRA_TASMOTA_COMPATIBILITY_START -->
 # IoTextra Tasmota Compatibility
