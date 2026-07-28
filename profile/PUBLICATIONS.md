@@ -17,6 +17,7 @@
 
 ### CNX Software
 
+- [IoTextra Modular Automation Boards with 4 Inputs & 4 Outputs Work with Raspberry Pi and ESP32 MCU Boards](https://www.cnx-software.com/2026/07/20/iotextra-modular-automation-boards-with-4-inputs-4-outputs-work-with-raspberry-pi-and-esp32-mcu-boards/)
 - [IoThing Digital 300V IO Board Works with Arduino, Raspberry Pi, MikroBus](https://www.cnx-software.com/2021/11/26/iothing-digital-300v-io-board-works-with-arduino-raspberry-pi-mikrobus/)
 - [SAMD21-Lite is a Stamp-Sized MikroBus-Compatible Cortex-M0 MCU Board](https://www.cnx-software.com/2020/08/07/samd21-lite-is-a-stamp-sized-mikrobus-compatible-cortex-m0-mcu-board/)
 - [Bokra NXP LPC824 and Nordic nRF52832 Powered MCU Modules Follow MikroBus Form Factor](https://www.cnx-software.com/2019/12/17/bokra-nxp-lpc824-and-nordic-nrf52832-powered-mcu-modules-follow-mikrobus-form-factor/)
