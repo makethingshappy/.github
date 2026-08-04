@@ -2,9 +2,9 @@
 
 ### Hackaday
 
+- [Octal3: No Power. It Still Holds.](https://hackaday.io/project/206223-octal3-no-power-it-still-holds)
 - [Building Industrial Automation Nodes with IoTflow](https://hackaday.io/project/204793-building-industrial-automation-nodes-with-iotflow/details)
 - [IoThome: Industrial IoT for Smart Farming](https://hackaday.io/project/205187-iothome-industrial-iot-for-smart-farming)
-- [Octal3: No Power. It Still Holds.](https://hackaday.io/project/206223-octal3-no-power-it-still-holds)
 
 ### Hackster
 
