@@ -18,17 +18,35 @@ jobs:
 
       - name: Sync to Shopify
         env:
-          SHOPIFY_TOKEN: ${{ secrets.SHOPIFY_ACCESS_TOKEN }}
+          SHOPIFY_CLIENT_ID: ${{ secrets.SHOPIFY_CLIENT_ID }}
+          SHOPIFY_CLIENT_SECRET: ${{ secrets.SHOPIFY_CLIENT_SECRET }}
         run: |
           python3 << 'PYEOF'
           import re
           import urllib.request
           import urllib.error
+          import urllib.parse
           import json
           import os
 
           shop = '55b706-7c.myshopify.com'
-          token = os.environ['SHOPIFY_TOKEN']
+          client_id = os.environ['SHOPIFY_CLIENT_ID']
+          client_secret = os.environ['SHOPIFY_CLIENT_SECRET']
+
+          token_data = urllib.parse.urlencode({
+              'grant_type': 'client_credentials',
+              'client_id': client_id,
+              'client_secret': client_secret,
+          }).encode('utf-8')
+          token_req = urllib.request.Request(
+              f'https://{shop}/admin/oauth/access_token',
+              data=token_data, method='POST'
+          )
+          token_req.add_header('Content-Type', 'application/x-www-form-urlencoded')
+          with urllib.request.urlopen(token_req) as resp:
+              token_result = json.loads(resp.read())
+          token = token_result['access_token']
+          print(f"Got fresh Shopify access token, scope: {token_result.get('scope')}")
 
           def get_page(page_id):
               req = urllib.request.Request(
