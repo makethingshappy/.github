@@ -9,8 +9,10 @@ High-quality hardware modules and software for seamless IoT/IIoT integration.
 - [🔧 Our Ecosystem](#-our-ecosystem)
 - [📊 Software Compatibility](#software-compatibility)
   - [Carrier Boards](#carrier-boards)
+  - [IoTextra — Software Compatibility](#iotextra--software-compatibility)
   - [IoTextra — Node-RED Compatibility](#iotextra--node-red-compatibility)
   - [IoTextra — Tasmota Compatibility](#iotextra--tasmota-compatibility)
+  - [IoTextra — ESPHome Compatibility](#iotextra--esphome-compatibility)
 - [📰 Publications](#-publications)
 
 ---
@@ -29,11 +31,20 @@ High-quality hardware modules and software for seamless IoT/IIoT integration.
 | **I/O Modules** | [IoTextra-Analog](https://github.com/makethingshappy/IoTextra-Analog) | High-precision analog I/O modules |
 | **I/O Modules** | [IoTextra-Combo](https://github.com/makethingshappy/IoTextra-Combo) | Hybrid analog & digital I/O modules |
 | **Smart Home** | [IoThome](https://github.com/makethingshappy/IoThome) | Standalone Tasmota ecosystem for smart home |
+| **Smart Home** | [MTH for ESPHome](https://github.com/makethingshappy/MTH-for-ESPHome) | ESPHome support for makethingshappy.io modules: ready-to-flash configs and setup guide |
 | **Adapters** | [Shields](https://github.com/makethingshappy/Shields) | Adapters connecting Arduino, Feather, Pico, Teensy to mikroBUS |
 
 ---
 
 ## <a name="software-compatibility"></a>📊 Software Compatibility
+
+IoTextra modules work with three software platforms:
+
+- **[IoTflow](https://github.com/makethingshappy/IoTflow)** — Node-RED, MQTT and Blynk
+- **[IoThome](https://github.com/makethingshappy/IoThome)** — Tasmota templates and Berry drivers
+- **[MTH for ESPHome](https://github.com/makethingshappy/MTH-for-ESPHome)** — ESPHome configs ([setup guide](https://github.com/makethingshappy/MTH-for-ESPHome/blob/main/Documentation/Setup.md))
+
+The tables below show what is available for each carrier board and IoTextra module.
 
 ### Carrier Boards
 
@@ -68,6 +79,38 @@ High-quality hardware modules and software for seamless IoT/IIoT integration.
 - 🔲 — Planned
 
 <!-- CARRIER_COMPATIBILITY_END -->
+
+### <a name="iotextra--software-compatibility"></a>IoTextra — Software Compatibility
+
+<!-- IOTEXTRA_SOFTWARE_COMPATIBILITY_START -->
+# IoTextra Software Compatibility
+
+| IoTextra Module | host-map | IoTflow (Node-RED) | IoTflow (Blynk) | IoThome (Tasmota) | MTH for ESPHome |
+|---|:---:|:---:|:---:|:---:|:---:|
+| Input v.3.02 | [![yaml](https://img.shields.io/badge/yaml-blue)](https://github.com/makethingshappy/iotextra-digital/blob/main/Input/v.3.02/host-map.yaml) | [![Open](https://img.shields.io/badge/Open-green)](https://github.com/makethingshappy/IoTflow/blob/main/README.md) | [![Open](https://img.shields.io/badge/Open-green)](https://github.com/makethingshappy/IoTflow/blob/main/README.md) | [![Open](https://img.shields.io/badge/Open-green)](https://github.com/makethingshappy/IoThome/blob/main/README.md) | [![Open](https://img.shields.io/badge/Open-green)](https://github.com/makethingshappy/MTH-for-ESPHome/blob/main/README.md) |
+| Relay v.3.02 | [![yaml](https://img.shields.io/badge/yaml-blue)](https://github.com/makethingshappy/iotextra-digital/blob/main/Relay/v.3.02/host-map.yaml) | 🔲 | 🔲 | 🔲 | 🔲 |
+| Relay2 v.3.02 | [![yaml](https://img.shields.io/badge/yaml-blue)](https://github.com/makethingshappy/iotextra-digital/blob/main/Relay2/v3.02/host-map.yaml) | [![Open](https://img.shields.io/badge/Open-green)](https://github.com/makethingshappy/IoTflow/blob/main/README.md) | [![Open](https://img.shields.io/badge/Open-green)](https://github.com/makethingshappy/IoTflow/blob/main/README.md) | [![Open](https://img.shields.io/badge/Open-green)](https://github.com/makethingshappy/IoThome/blob/main/README.md) | 🔶 |
+| SSR Small v.3.02 | [![yaml](https://img.shields.io/badge/yaml-blue)](https://github.com/makethingshappy/iotextra-digital/blob/main/SSR%20Small/v.3.02/host-map.yaml) | [![Open](https://img.shields.io/badge/Open-green)](https://github.com/makethingshappy/IoTflow/blob/main/README.md) | [![Open](https://img.shields.io/badge/Open-green)](https://github.com/makethingshappy/IoTflow/blob/main/README.md) | [![Open](https://img.shields.io/badge/Open-green)](https://github.com/makethingshappy/IoThome/blob/main/README.md) | [![Open](https://img.shields.io/badge/Open-green)](https://github.com/makethingshappy/MTH-for-ESPHome/blob/main/README.md) |
+| MOSFET2 v.3.02 | [![yaml](https://img.shields.io/badge/yaml-blue)](https://github.com/makethingshappy/iotextra-digital/blob/main/MOSFET2/v.3.02/host-map.yaml) | [![Open](https://img.shields.io/badge/Open-green)](https://github.com/makethingshappy/IoTflow/blob/main/README.md) | [![Open](https://img.shields.io/badge/Open-green)](https://github.com/makethingshappy/IoTflow/blob/main/README.md) | [![Open](https://img.shields.io/badge/Open-green)](https://github.com/makethingshappy/IoThome/blob/main/README.md) | [![Open](https://img.shields.io/badge/Open-green)](https://github.com/makethingshappy/MTH-for-ESPHome/blob/main/README.md) |
+| Quadro | — | 🔲 | 🔲 | [![Open](https://img.shields.io/badge/Open-green)](https://github.com/makethingshappy/IoThome/blob/main/README.md) | 🔲 |
+| Octal v.3.04 | [![yaml](https://img.shields.io/badge/yaml-blue)](https://github.com/makethingshappy/iotextra-digital/blob/main/Octal/v.3.04/host-map.yaml) | [![Open](https://img.shields.io/badge/Open-green)](https://github.com/makethingshappy/IoTflow/blob/main/README.md) | [![Open](https://img.shields.io/badge/Open-green)](https://github.com/makethingshappy/IoTflow/blob/main/README.md) | [![Open](https://img.shields.io/badge/Open-green)](https://github.com/makethingshappy/IoThome/blob/main/README.md) | [![Open](https://img.shields.io/badge/Open-green)](https://github.com/makethingshappy/MTH-for-ESPHome/blob/main/README.md) |
+| Octal2 v.3.02 | [![yaml](https://img.shields.io/badge/yaml-blue)](https://github.com/makethingshappy/iotextra-digital/blob/main/Octal2/v.3.02/host-map.yaml) | [![Open](https://img.shields.io/badge/Open-green)](https://github.com/makethingshappy/IoTflow/blob/main/README.md) | [![Open](https://img.shields.io/badge/Open-green)](https://github.com/makethingshappy/IoTflow/blob/main/README.md) | [![Open](https://img.shields.io/badge/Open-green)](https://github.com/makethingshappy/IoThome/blob/main/README.md) | [![Open](https://img.shields.io/badge/Open-green)](https://github.com/makethingshappy/MTH-for-ESPHome/blob/main/README.md) |
+| Octal3 v.3.02 | [![yaml](https://img.shields.io/badge/yaml-blue)](https://github.com/makethingshappy/iotextra-digital/blob/main/Octal3/v.3.02/host-map.yaml) | [![Open](https://img.shields.io/badge/Open-green)](https://github.com/makethingshappy/IoTflow/blob/main/README.md) | [![Open](https://img.shields.io/badge/Open-green)](https://github.com/makethingshappy/IoTflow/blob/main/README.md) | [![Open](https://img.shields.io/badge/Open-green)](https://github.com/makethingshappy/IoThome/blob/main/README.md) | 🔲 |
+| Octal4 v.3.02 | [![yaml](https://img.shields.io/badge/yaml-blue)](https://github.com/makethingshappy/iotextra-digital/blob/main/Octal4/v.3.02/host-map.yaml) | [![Open](https://img.shields.io/badge/Open-green)](https://github.com/makethingshappy/IoTflow/blob/main/README.md) | [![Open](https://img.shields.io/badge/Open-green)](https://github.com/makethingshappy/IoTflow/blob/main/README.md) | [![Open](https://img.shields.io/badge/Open-green)](https://github.com/makethingshappy/IoThome/blob/main/README.md) | 🔶 |
+| Analog v.3.12 | [![yaml](https://img.shields.io/badge/yaml-blue)](https://github.com/makethingshappy/iotextra-analog/blob/main/Analog/v.3.12/host-map.yaml) | [![Open](https://img.shields.io/badge/Open-green)](https://github.com/makethingshappy/IoTflow/blob/main/README.md) | [![Open](https://img.shields.io/badge/Open-green)](https://github.com/makethingshappy/IoTflow/blob/main/README.md) | [![Open](https://img.shields.io/badge/Open-green)](https://github.com/makethingshappy/IoThome/blob/main/README.md) | 🔶 |
+| Analog2 | — | 🔲 | 🔲 | 🔲 | 🔲 |
+| Analog3 v.3.11 | [![yaml](https://img.shields.io/badge/yaml-blue)](https://github.com/makethingshappy/iotextra-analog/blob/main/Analog3/v.3.11/host-map.yaml) | [![Open](https://img.shields.io/badge/Open-green)](https://github.com/makethingshappy/IoTflow/blob/main/README.md) | [![Open](https://img.shields.io/badge/Open-green)](https://github.com/makethingshappy/IoTflow/blob/main/README.md) | [![Open](https://img.shields.io/badge/Open-green)](https://github.com/makethingshappy/IoThome/blob/main/README.md) | 🔲 |
+| Combo v.3.03 / v.3.04 | [![yaml](https://img.shields.io/badge/yaml-blue)](https://github.com/makethingshappy/iotextra-combo/blob/main/Combo/v.3.03_and_v.3.04/host-map.yaml) | [![Open](https://img.shields.io/badge/Open-green)](https://github.com/makethingshappy/IoTflow/blob/main/README.md) | [![Open](https://img.shields.io/badge/Open-green)](https://github.com/makethingshappy/IoTflow/blob/main/README.md) | [![Open](https://img.shields.io/badge/Open-green)](https://github.com/makethingshappy/IoThome/blob/main/README.md) | 🔶 |
+| Combo2 | — | 🔲 | 🔲 | 🔲 | 🔲 |
+
+**Legend:**
+- [![Open](https://img.shields.io/badge/Open-green)]() — available, click to open
+- [![yaml](https://img.shields.io/badge/yaml-blue)]() — module host-map (pin and I2C map), click to open
+- — — not applicable / not available
+- 🔶 — Coming Soon
+- 🔲 — Planned
+
+<!-- IOTEXTRA_SOFTWARE_COMPATIBILITY_END -->
 
 ### <a name="iotextra--node-red-compatibility"></a>IoTextra — Node-RED Compatibility
 
@@ -125,6 +168,35 @@ High-quality hardware modules and software for seamless IoT/IIoT integration.
 - 🔲 — Planned
 
 <!-- IOTEXTRA_TASMOTA_COMPATIBILITY_END -->
+
+### <a name="iotextra--esphome-compatibility"></a>IoTextra — ESPHome Compatibility
+
+<!-- IOTEXTRA_ESPHOME_COMPATIBILITY_START -->
+# IoTextra ESPHome Compatibility
+| IoTextra Module | IoTsmart ESP32-S3 | IoTsmart XIAO + XIAO ESP32-S3 | IoTbase PICO + Waveshare ESP32-S3-Pico | IoTbase NANO + Waveshare ESP32-S3-NANO | IoTbase Feather + Adafruit ESP32-C6 Feather |
+|---|:---:|:---:|:---:|:---:|:---:|
+| Input | [![Config](https://img.shields.io/badge/Config-green)](https://github.com/makethingshappy/MTH-for-ESPHome/blob/main/Configs/IoTsmart_ESP32-S3/iotextra-input-v3-02-iotsmart-esp32s3-v2-01-gpio.yaml) | 🔲 | 🔲 | 🔲 | 🔲 |
+| Relay | 🔲 | 🔲 | 🔲 | 🔲 | 🔲 |
+| Relay2 | [🔶](https://github.com/makethingshappy/MTH-for-ESPHome/blob/main/Configs/IoTsmart_ESP32-S3/iotextra-relay2-v3-02-iotsmart-esp32s3-v2-01-gpio.yaml) | 🔲 | 🔲 | 🔲 | 🔲 |
+| SSR Small | [![Config](https://img.shields.io/badge/Config-green)](https://github.com/makethingshappy/MTH-for-ESPHome/blob/main/Configs/IoTsmart_ESP32-S3/iotextra-ssr-small-v3-02-iotsmart-esp32s3-v2-01-gpio.yaml) | 🔲 | 🔲 | 🔲 | 🔲 |
+| MOSFET2 | [![Config](https://img.shields.io/badge/Config-green)](https://github.com/makethingshappy/MTH-for-ESPHome/blob/main/Configs/IoTsmart_ESP32-S3/iotextra-mosfet2-v3-02-iotsmart-esp32s3-v2-01-gpio.yaml) | 🔲 | 🔲 | 🔲 | 🔲 |
+| Quadro | 🔲 | 🔲 | 🔲 | 🔲 | 🔲 |
+| Octal | [![Config](https://img.shields.io/badge/Config-green)](https://github.com/makethingshappy/MTH-for-ESPHome/blob/main/Configs/IoTsmart_ESP32-S3/iotextra-octal-v3-04-iotsmart-esp32s3-v2-01-gpio.yaml) | 🔲 | 🔲 | 🔲 | 🔲 |
+| Octal2 | [![Config](https://img.shields.io/badge/Config-green)](https://github.com/makethingshappy/MTH-for-ESPHome/blob/main/Configs/IoTsmart_ESP32-S3/iotextra-octal2-v3-02-iotsmart-esp32s3-v2-01-gpio.yaml) | 🔲 | 🔲 | 🔲 | 🔲 |
+| Octal3 | 🔲 | 🔲 | 🔲 | 🔲 | 🔲 |
+| Octal4 | [🔶](https://github.com/makethingshappy/MTH-for-ESPHome/blob/main/Configs/IoTsmart_ESP32-S3/iotextra-octal4-v3-02-iotsmart-esp32s3-v2-01-gpio.yaml) | 🔲 | 🔲 | 🔲 | 🔲 |
+| Analog | [🔶](https://github.com/makethingshappy/MTH-for-ESPHome/blob/main/Configs/IoTsmart_ESP32-S3/iotextra-analog-v3-12-iotsmart-esp32s3-v2-01-i2c.yaml) | 🔲 | 🔲 | 🔲 | 🔲 |
+| Analog2 | 🔲 | 🔲 | 🔲 | 🔲 | 🔲 |
+| Analog3 | 🔲 | 🔲 | 🔲 | 🔲 | 🔲 |
+| Combo | [🔶](https://github.com/makethingshappy/MTH-for-ESPHome/blob/main/Configs/IoTsmart_ESP32-S3/iotextra-combo-v3-04-iotsmart-esp32s3-v2-01-gpio.yaml) | 🔲 | 🔲 | 🔲 | 🔲 |
+| Combo2 | 🔲 | 🔲 | 🔲 | 🔲 | 🔲 |
+
+**Legend:**
+- [![Config](https://img.shields.io/badge/Config-green)]() — config available and verified on hardware, click to open
+- 🔶 — config published, not yet verified on hardware
+- 🔲 — Planned
+
+<!-- IOTEXTRA_ESPHOME_COMPATIBILITY_END -->
 
 ---
 
