@@ -1,0 +1,23 @@
+# IoTextra ESPHome Compatibility
+| IoTextra Module | IoTsmart ESP32-S3 | IoTsmart XIAO + XIAO ESP32-S3 | IoTbase PICO + Waveshare ESP32-S3-Pico | IoTbase NANO + Waveshare ESP32-S3-NANO | IoTbase Feather + Adafruit ESP32-C6 Feather |
+|---|:---:|:---:|:---:|:---:|:---:|
+| Input | [![Config](https://img.shields.io/badge/Config-green)](https://github.com/makethingshappy/MTH-for-ESPHome/blob/main/Configs/IoTsmart_ESP32-S3/iotextra-input-v3-02-iotsmart-esp32s3-v2-01-gpio.yaml) | 🔲 | 🔲 | 🔲 | 🔲 |
+| Relay | 🔲 | 🔲 | 🔲 | 🔲 | 🔲 |
+| Relay2 | [🔶](https://github.com/makethingshappy/MTH-for-ESPHome/blob/main/Configs/IoTsmart_ESP32-S3/iotextra-relay2-v3-02-iotsmart-esp32s3-v2-01-gpio.yaml) | 🔲 | 🔲 | 🔲 | 🔲 |
+| SSR Small | [![Config](https://img.shields.io/badge/Config-green)](https://github.com/makethingshappy/MTH-for-ESPHome/blob/main/Configs/IoTsmart_ESP32-S3/iotextra-ssr-small-v3-02-iotsmart-esp32s3-v2-01-gpio.yaml) | 🔲 | 🔲 | 🔲 | 🔲 |
+| MOSFET2 | [![Config](https://img.shields.io/badge/Config-green)](https://github.com/makethingshappy/MTH-for-ESPHome/blob/main/Configs/IoTsmart_ESP32-S3/iotextra-mosfet2-v3-02-iotsmart-esp32s3-v2-01-gpio.yaml) | 🔲 | 🔲 | 🔲 | 🔲 |
+| Quadro | 🔲 | 🔲 | 🔲 | 🔲 | 🔲 |
+| Octal | [![Config](https://img.shields.io/badge/Config-green)](https://github.com/makethingshappy/MTH-for-ESPHome/blob/main/Configs/IoTsmart_ESP32-S3/iotextra-octal-v3-04-iotsmart-esp32s3-v2-01-gpio.yaml) | 🔲 | 🔲 | 🔲 | 🔲 |
+| Octal2 | [![Config](https://img.shields.io/badge/Config-green)](https://github.com/makethingshappy/MTH-for-ESPHome/blob/main/Configs/IoTsmart_ESP32-S3/iotextra-octal2-v3-02-iotsmart-esp32s3-v2-01-gpio.yaml) | 🔲 | 🔲 | 🔲 | 🔲 |
+| Octal3 | 🔲 | 🔲 | 🔲 | 🔲 | 🔲 |
+| Octal4 | [🔶](https://github.com/makethingshappy/MTH-for-ESPHome/blob/main/Configs/IoTsmart_ESP32-S3/iotextra-octal4-v3-02-iotsmart-esp32s3-v2-01-gpio.yaml) | 🔲 | 🔲 | 🔲 | 🔲 |
+| Analog | [🔶](https://github.com/makethingshappy/MTH-for-ESPHome/blob/main/Configs/IoTsmart_ESP32-S3/iotextra-analog-v3-12-iotsmart-esp32s3-v2-01-i2c.yaml) | 🔲 | 🔲 | 🔲 | 🔲 |
+| Analog2 | 🔲 | 🔲 | 🔲 | 🔲 | 🔲 |
+| Analog3 | 🔲 | 🔲 | 🔲 | 🔲 | 🔲 |
+| Combo | [🔶](https://github.com/makethingshappy/MTH-for-ESPHome/blob/main/Configs/IoTsmart_ESP32-S3/iotextra-combo-v3-04-iotsmart-esp32s3-v2-01-gpio.yaml) | 🔲 | 🔲 | 🔲 | 🔲 |
+| Combo2 | 🔲 | 🔲 | 🔲 | 🔲 | 🔲 |
+
+**Legend:**
+- [![Config](https://img.shields.io/badge/Config-green)]() — config available and verified on hardware, click to open
+- 🔶 — config published, not yet verified on hardware
+- 🔲 — Planned
