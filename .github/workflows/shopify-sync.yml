@@ -85,7 +85,7 @@ jobs:
           def make_button(label, url):
               if label.lower() == 'yaml':
                   color = '#1f6feb'
-                  text = 'color:#fff;'
+                  text = 'color:#fff !important;'
               else:
                   color = '#8cc24e' if label == 'Example' else '#52cc75'
                   text = ''
@@ -209,6 +209,7 @@ jobs:
                   ('CARRIER_COMPATIBILITY', carrier_html),
                   ('IOTEXTRA_NODERED_COMPATIBILITY', nodered_html),
                   ('IOTEXTRA_TASMOTA_COMPATIBILITY', tasmota_html),
+                  ('IOTEXTRA_ESPHOME_COMPATIBILITY', esphome_html),
               ],
           }
 
