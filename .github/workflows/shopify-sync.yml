@@ -7,6 +7,8 @@ on:
       - 'CARRIER_COMPATIBILITY.md'
       - 'IOTEXTRA_NODERED_COMPATIBILITY.md'
       - 'IOTEXTRA_TASMOTA_COMPATIBILITY.md'
+      - 'IOTEXTRA_SOFTWARE_COMPATIBILITY.md'
+      - 'IOTEXTRA_ESPHOME_COMPATIBILITY.md'
   workflow_dispatch:
 
 jobs:
@@ -81,10 +83,15 @@ jobs:
               return new_html
 
           def make_button(label, url):
-              color = '#8cc24e' if label == 'Example' else '#52cc75'
+              if label.lower() == 'yaml':
+                  color = '#1f6feb'
+                  text = 'color:#fff;'
+              else:
+                  color = '#8cc24e' if label == 'Example' else '#52cc75'
+                  text = ''
               style = (
                   f'display:inline-block;padding:3px 10px;border-radius:4px;'
-                  f'background:{color};font-size:12px;'
+                  f'background:{color};{text}font-size:12px;'
                   f'font-weight:700;text-decoration:none;white-space:nowrap;'
               )
               return f'<a href="{url}" style="{style}">{label}</a>'
@@ -177,6 +184,11 @@ jobs:
           with open('IOTEXTRA_TASMOTA_COMPATIBILITY.md') as f:
               tasmota_html = md_to_html(f.read())
 
+          with open('IOTEXTRA_SOFTWARE_COMPATIBILITY.md') as f:
+              software_html = md_to_html(f.read())
+          with open('IOTEXTRA_ESPHOME_COMPATIBILITY.md') as f:
+              esphome_html = md_to_html(f.read())
+
           update_page('160783663390', pub_html)
 
           pages = {
@@ -187,6 +199,11 @@ jobs:
               '160892322078': [
                   ('CARRIER_COMPATIBILITY', carrier_html),
                   ('IOTEXTRA_TASMOTA_COMPATIBILITY', tasmota_html),
+              ],
+              # Smart Home Automation with ESPHome
+              '745463283998': [
+                  ('CARRIER_COMPATIBILITY', carrier_html),
+                  ('IOTEXTRA_ESPHOME_COMPATIBILITY', esphome_html),
               ],
               '155104608542': [
                   ('CARRIER_COMPATIBILITY', carrier_html),

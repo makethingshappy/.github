@@ -5,6 +5,8 @@ on:
       - 'CARRIER_COMPATIBILITY.md'
       - 'IOTEXTRA_NODERED_COMPATIBILITY.md'
       - 'IOTEXTRA_TASMOTA_COMPATIBILITY.md'
+      - 'IOTEXTRA_SOFTWARE_COMPATIBILITY.md'
+      - 'IOTEXTRA_ESPHOME_COMPATIBILITY.md'
   workflow_dispatch:
 jobs:
   sync:
@@ -28,42 +30,47 @@ jobs:
           repository: makethingshappy/IoThome
           token: ${{ secrets.MTH_SYNC_TOKEN }}
           path: IoThome
+      - name: Checkout MTH-for-ESPHome repo
+        uses: actions/checkout@v4
+        with:
+          repository: makethingshappy/MTH-for-ESPHome
+          token: ${{ secrets.MTH_SYNC_TOKEN }}
+          path: MTH-for-ESPHome
       - name: Create sync script
         run: |
           cat > /tmp/sync_tables.py << 'PYEOF'
           import re
           import sys
           import os
-          carrier_file = sys.argv[1]
-          nodered_file = sys.argv[2]
-          tasmota_file = sys.argv[3]
-          target_file = sys.argv[4]
+          # usage: sync_tables.py <target_file>
+          # Tables are read from the current directory (.github repo root).
+          TABLES = {
+              'CARRIER_COMPATIBILITY': 'CARRIER_COMPATIBILITY.md',
+              'IOTEXTRA_SOFTWARE_COMPATIBILITY': 'IOTEXTRA_SOFTWARE_COMPATIBILITY.md',
+              'IOTEXTRA_NODERED_COMPATIBILITY': 'IOTEXTRA_NODERED_COMPATIBILITY.md',
+              'IOTEXTRA_TASMOTA_COMPATIBILITY': 'IOTEXTRA_TASMOTA_COMPATIBILITY.md',
+              'IOTEXTRA_ESPHOME_COMPATIBILITY': 'IOTEXTRA_ESPHOME_COMPATIBILITY.md',
+          }
+          target_file = sys.argv[1]
           if not os.path.exists(target_file):
               print(f"Skipping {target_file} - not found")
               sys.exit(0)
-          with open(carrier_file, 'r') as f:
-              carrier = f.read()
-          with open(nodered_file, 'r') as f:
-              nodered = f.read()
-          with open(tasmota_file, 'r') as f:
-              tasmota = f.read()
           with open(target_file, 'r') as f:
               content = f.read()
-          content = re.sub(
-              r'<!-- CARRIER_COMPATIBILITY_START -->.*?<!-- CARRIER_COMPATIBILITY_END -->',
-              '<!-- CARRIER_COMPATIBILITY_START -->\n' + carrier + '\n<!-- CARRIER_COMPATIBILITY_END -->',
-              content, flags=re.DOTALL
-          )
-          content = re.sub(
-              r'<!-- IOTEXTRA_NODERED_COMPATIBILITY_START -->.*?<!-- IOTEXTRA_NODERED_COMPATIBILITY_END -->',
-              '<!-- IOTEXTRA_NODERED_COMPATIBILITY_START -->\n' + nodered + '\n<!-- IOTEXTRA_NODERED_COMPATIBILITY_END -->',
-              content, flags=re.DOTALL
-          )
-          content = re.sub(
-              r'<!-- IOTEXTRA_TASMOTA_COMPATIBILITY_START -->.*?<!-- IOTEXTRA_TASMOTA_COMPATIBILITY_END -->',
-              '<!-- IOTEXTRA_TASMOTA_COMPATIBILITY_START -->\n' + tasmota + '\n<!-- IOTEXTRA_TASMOTA_COMPATIBILITY_END -->',
-              content, flags=re.DOTALL
-          )
+          for marker, table_file in TABLES.items():
+              start = f'<!-- {marker}_START -->'
+              end = f'<!-- {marker}_END -->'
+              if start not in content or end not in content:
+                  continue
+              with open(table_file, 'r') as f:
+                  table = f.read()
+              block = start + '\n' + table + '\n' + end
+              content = re.sub(
+                  re.escape(start) + '.*?' + re.escape(end),
+                  lambda m: block,
+                  content, flags=re.DOTALL
+              )
+              print(f"  {marker} -> {target_file}")
           with open(target_file, 'w') as f:
               f.write(content)
           print(f"Updated {target_file}")
@@ -75,11 +82,7 @@ jobs:
             "IoTflow/Documentation/SETUP.md" \
             "IoTflow/IoTflow Forge/README.md" \
             "IoTflow/node-red-contrib-iotextra/README.md"; do
-            python3 /tmp/sync_tables.py \
-              CARRIER_COMPATIBILITY.md \
-              IOTEXTRA_NODERED_COMPATIBILITY.md \
-              IOTEXTRA_TASMOTA_COMPATIBILITY.md \
-              "$FILE"
+            python3 /tmp/sync_tables.py "$FILE"
           done
       - name: Sync tables into IoThome files
         run: |
@@ -87,22 +90,29 @@ jobs:
             "IoThome/README.md" \
             "IoThome/Documentation/Setup.md" \
             "IoThome/Tasmota_Templates/README.md"; do
-            python3 /tmp/sync_tables.py \
-              CARRIER_COMPATIBILITY.md \
-              IOTEXTRA_NODERED_COMPATIBILITY.md \
-              IOTEXTRA_TASMOTA_COMPATIBILITY.md \
-              "$FILE"
+            python3 /tmp/sync_tables.py "$FILE"
+          done
+      - name: Sync tables into MTH-for-ESPHome files
+        run: |
+          for FILE in \
+            "MTH-for-ESPHome/README.md" \
+            "MTH-for-ESPHome/Documentation/Setup.md"; do
+            python3 /tmp/sync_tables.py "$FILE"
           done
       - name: Sync tables into .github profile README
         run: |
-          python3 /tmp/sync_tables.py \
-            CARRIER_COMPATIBILITY.md \
-            IOTEXTRA_NODERED_COMPATIBILITY.md \
-            IOTEXTRA_TASMOTA_COMPATIBILITY.md \
-            "profile/README.md"
+          python3 /tmp/sync_tables.py "profile/README.md"
       - name: Commit changes to IoTflow
         run: |
           cd IoTflow
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --staged --quiet || git commit -m "Auto-sync compatibility tables"
+          git push
+      - name: Commit changes to MTH-for-ESPHome
+        run: |
+          cd MTH-for-ESPHome
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add -A
